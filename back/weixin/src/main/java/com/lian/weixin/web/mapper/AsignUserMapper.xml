@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lian.weixin.web.mapper.AsignUserMapper">
+  <resultMap id="BaseResultMap" type="com.lian.weixin.web.model.AsignUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="activityid" jdbcType="INTEGER" property="activityid" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="teamNumber" jdbcType="INTEGER" property="teamnumber" />
+    <result column="isleader" jdbcType="INTEGER" property="isleader" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, activityid, realname, openid, teamNumber, isleader
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from asignuser
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectactivityid" resultType="java.lang.Integer">
+      select activityid  from asignuser where openid =#{openid,jdbcType=VARCHAR}
+    </select>
+  <select id="getTeammateNum" resultType="java.lang.Integer">
+    select count(*) from asignuser where activityid=#{activityid,jdbcType=INTEGER} and teamNumber=#{teamNumber,jdbcType=INTEGER}
+  </select>
+  <select id="getUserInTeam" resultType="com.lian.weixin.web.model.Activity">
+    select  * from asignuser where openid=#{openid,jdbcType=VARCHAR} and activityid=#{activityid,jdbcType=INTEGER}
+  </select>
+    <select id="selectMemberHeadpic" resultType="java.util.Map">
+      select openid from asignuser where activityid=#{activityid,jdbcType=INTEGER} and teamNumber=#{teamNumber,jdbcType=INTEGER}
+    </select>
+  <select id="getTeamid" resultType="java.lang.Integer">
+    select id from asignuser where activityid=#{activityid,jdbcType=INTEGER}
+
+  </select>
+  <select id="getTeamMemberOpenid" resultType="java.lang.String">
+    select openid from asignuser where activityid=#{activityid,jdbcType=INTEGER} and teamNumber=#{teamNumber,jdbcType=INTEGER}
+  </select>
+    <select id="checkUser" resultType="java.lang.Integer">
+       select id from asignuser where activityid=#{activityid,jdbcType=INTEGER} and openid=#{openid,jdbcType=VARCHAR}
+    </select>
+  <select id="getMyActivity" resultType="java.util.Map">
+    select * from asignuser where  openid=#{openid,jdbcType=VARCHAR}
+
+  </select>
+    <select id="getNumber" resultType="java.lang.Integer">
+      select count(*) from asignuser where activityid=#{activityid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from asignuser
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByActivityid">
+     delete from asignuser
+    where activityid = #{activityid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lian.weixin.web.model.AsignUser">
+    insert into asignuser ( activityid, realname,
+      openid, teamNumber, isleader
+      )
+    values (#{activityid,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR},
+      #{openid,jdbcType=VARCHAR}, #{teamnumber,jdbcType=INTEGER}, #{isleader,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lian.weixin.web.model.AsignUser">
+    insert into asignuser
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="activityid != null">
+        activityid,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="teamnumber != null">
+        teamNumber,
+      </if>
+      <if test="isleader != null">
+        isleader,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="activityid != null">
+        #{activityid,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="teamnumber != null">
+        #{teamnumber,jdbcType=INTEGER},
+      </if>
+      <if test="isleader != null">
+        #{isleader,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lian.weixin.web.model.AsignUser">
+    update asignuser
+    <set>
+      <if test="activityid != null">
+        activityid = #{activityid,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="teamnumber != null">
+        teamNumber = #{teamnumber,jdbcType=INTEGER},
+      </if>
+      <if test="isleader != null">
+        isleader = #{isleader,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lian.weixin.web.model.AsignUser">
+    update asignuser
+    set activityid = #{activityid,jdbcType=INTEGER},
+      realname = #{realname,jdbcType=VARCHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      teamNumber = #{teamnumber,jdbcType=INTEGER},
+      isleader = #{isleader,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

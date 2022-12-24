@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lian.weixin.web.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.lian.weixin.web.model.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="headpic" jdbcType="VARCHAR" property="headpic" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="birth" jdbcType="VARCHAR" property="birth" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="poutlook" jdbcType="VARCHAR" property="poutlook" />
+    <result column="phonenum" jdbcType="VARCHAR" property="phonenum" />
+    <result column="mail" jdbcType="VARCHAR" property="mail" />
+    <result column="work" jdbcType="VARCHAR" property="work" />
+    <result column="highgrade" jdbcType="VARCHAR" property="highgrade" />
+    <result column="workplace" jdbcType="VARCHAR" property="workplace" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="coin" jdbcType="INTEGER" property="coin" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="timelong" jdbcType="DOUBLE" property="timelong" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, headpic, nickname, openid, realname, sex, birth, age, poutlook, phonenum, mail, 
+    work, highgrade, workplace, level, coin, address
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByOpenID" resultType="com.lian.weixin.web.model.User">
+
+      select * from user where openid =#{openid,jdbcType=VARCHAR}
+
+    </select>
+    <select id="selectnicknameByOpenid" resultType="java.lang.String">
+      select nickname from user where openid=#{openid,jdbcType=VARCHAR}
+
+    </select>
+  <select id="getnickname" resultType="java.lang.String">
+    select nickname from user where openid=#{openid,jdbcType=VARCHAR}
+  </select>
+  <select id="geturl" resultType="java.lang.String">
+    select headpic from user where openid=#{openid,jdbcType=VARCHAR}
+
+  </select>
+  <select id="getTimeLong" resultType="java.lang.Double">
+    select timelong from user where openid=#{openid,jdbcType=VARCHAR}
+  </select>
+  <select id="getlevel" resultType="java.lang.Integer">
+    select level from user where openid=#{openid,jdbcType=VARCHAR}
+  </select>
+  <select id="getCoin" resultType="java.lang.Integer">
+    select coin from user where openid=#{openid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lian.weixin.web.model.User">
+    insert into user (id, headpic, nickname, 
+      openid, realname, sex, 
+      birth, age, poutlook, 
+      phonenum, mail, work, 
+      highgrade, workplace, level, 
+      coin, address,timelong)
+    values (#{id,jdbcType=INTEGER}, #{headpic,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{openid,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{birth,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{poutlook,jdbcType=VARCHAR}, 
+      #{phonenum,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR}, 
+      #{highgrade,jdbcType=VARCHAR}, #{workplace,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{coin,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR},#{timelong,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lian.weixin.web.model.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="headpic != null">
+        headpic,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="realname != null">
+        realname,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="poutlook != null">
+        poutlook,
+      </if>
+      <if test="phonenum != null">
+        phonenum,
+      </if>
+      <if test="mail != null">
+        mail,
+      </if>
+      <if test="work != null">
+        work,
+      </if>
+      <if test="highgrade != null">
+        highgrade,
+      </if>
+      <if test="workplace != null">
+        workplace,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="coin != null">
+        coin,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="headpic != null">
+        #{headpic,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="poutlook != null">
+        #{poutlook,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null">
+        #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null">
+        #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="work != null">
+        #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="highgrade != null">
+        #{highgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="workplace != null">
+        #{workplace,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="coin != null">
+        #{coin,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="addUser">
+      insert into user ( headpic, nickname,
+      openid, realname, sex,
+      birth, age, poutlook,
+      phonenum, mail, work,
+      highgrade, workplace, level,
+      coin, address)
+    values (#{headpic,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+      #{openid,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER},
+      #{birth,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{poutlook,jdbcType=VARCHAR},
+      #{phonenum,jdbcType=VARCHAR}, #{mail,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR},
+      #{highgrade,jdbcType=VARCHAR}, #{workplace,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER},
+      #{coin,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lian.weixin.web.model.User">
+    update user
+    <set>
+      <if test="headpic != null">
+        headpic = #{headpic,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birth != null">
+        birth = #{birth,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="poutlook != null">
+        poutlook = #{poutlook,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null">
+        phonenum = #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="mail != null">
+        mail = #{mail,jdbcType=VARCHAR},
+      </if>
+      <if test="work != null">
+        work = #{work,jdbcType=VARCHAR},
+      </if>
+      <if test="highgrade != null">
+        highgrade = #{highgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="workplace != null">
+        workplace = #{workplace,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="coin != null">
+        coin = #{coin,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lian.weixin.web.model.User">
+    update user
+    set headpic = #{headpic,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      birth = #{birth,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      poutlook = #{poutlook,jdbcType=VARCHAR},
+      phonenum = #{phonenum,jdbcType=VARCHAR},
+      mail = #{mail,jdbcType=VARCHAR},
+      work = #{work,jdbcType=VARCHAR},
+      highgrade = #{highgrade,jdbcType=VARCHAR},
+      workplace = #{workplace,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      coin = #{coin,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByopenid">
+
+     update user
+    set headpic = #{headpic,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      birth = #{birth,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      poutlook = #{poutlook,jdbcType=VARCHAR},
+      phonenum = #{phonenum,jdbcType=VARCHAR},
+      mail = #{mail,jdbcType=VARCHAR},
+      work = #{work,jdbcType=VARCHAR},
+      highgrade = #{highgrade,jdbcType=VARCHAR},
+      workplace = #{workplace,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      coin = #{coin,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR}
+    where  openid = #{openid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateTimeLong">
+    update user set timelong=#{result,jdbcType=DOUBLE} where openid = #{openid,jdbcType=VARCHAR}
+
+  </update>
+  <update id="updateCoin">
+     update user set coin=#{coin1,jdbcType=DOUBLE} where openid = #{openid,jdbcType=VARCHAR}
+  </update>
+  <update id="setLevel">
+    update user set level=#{i,jdbcType=INTEGER} where openid = #{openid,jdbcType=VARCHAR}
+  </update>
+</mapper>

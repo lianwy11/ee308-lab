@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lian.weixin.web.mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="com.lian.weixin.web.model.Message">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name1" jdbcType="VARCHAR" property="name1" />
+    <result column="name2" jdbcType="VARCHAR" property="name2" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+    <result column="msgstatus" jdbcType="INTEGER" property="msgstatus" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name1, name2, message, msgstatus, time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getMessage" resultType="java.util.Map">
+  select * from message where (name1 =#{myname,jdbcType=VARCHAR} and name2=#{name,jdbcType=VARCHAR}) or (name1=#{name,jdbcType=VARCHAR} and name2=#{myname,jdbcType=VARCHAR}) order by time desc limit #{page,jdbcType=INTEGER},#{pagesize,jdbcType=INTEGER}
+--   select * from message where (name1 ="lisi" and name2="lwy") or (name1="lwy" and name2="lisi") order by time
+  </select>
+  <select id="selectrunreadMessage" resultType="java.util.Map">
+    select * from message where  name2=#{openid,jdbcType=VARCHAR} and msgstatus=0 order by time desc
+
+  </select>
+  <select id="selectChatUser" resultType="java.util.Map">
+    select  distinct  name1 from message where name2=#{openid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectChatUser2" resultType="java.util.Map">
+    select distinct name2 from message where name1=#{openid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lian.weixin.web.model.Message">
+    insert into message ( name1, name2,
+      message, msgstatus, time
+      )
+    values ( #{name1,jdbcType=VARCHAR}, #{name2,jdbcType=VARCHAR},
+      #{message,jdbcType=VARCHAR}, #{msgstatus,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lian.weixin.web.model.Message">
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name1 != null">
+        name1,
+      </if>
+      <if test="name2 != null">
+        name2,
+      </if>
+      <if test="message != null">
+        message,
+      </if>
+      <if test="msgstatus != null">
+        msgstatus,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name1 != null">
+        #{name1,jdbcType=VARCHAR},
+      </if>
+      <if test="name2 != null">
+        #{name2,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="msgstatus != null">
+        #{msgstatus,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lian.weixin.web.model.Message">
+    update message
+    <set>
+      <if test="name1 != null">
+        name1 = #{name1,jdbcType=VARCHAR},
+      </if>
+      <if test="name2 != null">
+        name2 = #{name2,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null">
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="msgstatus != null">
+        msgstatus = 1,
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lian.weixin.web.model.Message">
+    update message set msgstatus=1 where id=#{id,jdbcType=INTEGER};
+  </update>
+    <update id="updateMessage2">
+      update message set msgstatus=1 where name1=#{myopenid,jdbcType=VARCHAR} and name2=#{youropenid,jdbcType=VARCHAR}
+    </update>
+</mapper>
