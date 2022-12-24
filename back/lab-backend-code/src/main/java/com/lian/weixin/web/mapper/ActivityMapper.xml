@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lian.weixin.web.mapper.ActivityMapper">
+  <resultMap id="BaseResultMap" type="com.lian.weixin.web.model.Activity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="imgurl" jdbcType="VARCHAR" property="imgurl" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="head" jdbcType="VARCHAR" property="head" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
+    <result column="starttime" jdbcType="VARCHAR" property="starttime" />
+    <result column="endtime" jdbcType="VARCHAR" property="endtime" />
+    <result column="registstart" jdbcType="VARCHAR" property="registstart" />
+    <result column="registend" jdbcType="VARCHAR" property="registend" />
+    <result column="sponsor" jdbcType="VARCHAR" property="sponsor" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="assignUser" jdbcType="VARCHAR" property="assignuser" />
+    <result column="mode" jdbcType="VARCHAR" property="mode" />
+    <result column="numofmate" jdbcType="INTEGER" property="numofmate" />
+    <result column="leader" jdbcType="VARCHAR" property="leader" />
+    <result column="mechanism" jdbcType="VARCHAR" property="mechanism" />
+    <result column="allnum" jdbcType="INTEGER" property="allnum" />
+    <result column="qiandao" jdbcType="DOUBLE" property="qiandao" />
+    <result column="classify1" jdbcType="VARCHAR" property="classify1" />
+    <result column="classify2" jdbcType="VARCHAR" property="classify2" />
+    <result column="teamswitch" jdbcType="INTEGER" property="teamswitch" />
+    <result column="chechswitch" jdbcType="INTEGER" property="checkswitch" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, imgurl, category, head, place, starttime, endtime, registstart, registend, sponsor, 
+    content, assignUser, mode, numofmate, leader, mechanism
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from activity where id=#{id,jdbcType=INTEGER}
+
+  </select>
+  <select id="selectLimits" resultType="java.util.Map">
+    select * from activity limit #{page,jdbcType=INTEGER},#{pagesize,jdbcType=INTEGER}
+
+
+  </select>
+  <select id="getteamNumandallnum" resultType="com.lian.weixin.web.model.Activity">
+    select allnum,numofmate from activity where id =#{id,jdbcType=INTEGER};
+
+
+  </select>
+  <select id="search" resultType="java.lang.Integer">
+    select * from activity where  id=#{activityid,jdbcType=INTEGER}
+  </select>
+  <select id="getid" resultType="java.lang.Integer">
+    select id from activity where  head=#{head,jdbcType=VARCHAR} and place=#{place,jdbcType=VARCHAR} and starttime=#{starttime,jdbcType=VARCHAR}
+  </select>
+  <select id="getorderActivityLimits" resultType="com.lian.weixin.web.model.Activity">
+    select * from activity where place like  "%" #{range,jdbcType=VARCHAR} "%"
+
+  </select>
+  <select id="getorderActivityclassify" resultType="com.lian.weixin.web.model.Activity">
+     select * from activity where place like  "%" #{range,jdbcType=VARCHAR} "%" and classify1=#{classify,jdbcType=VARCHAR}
+
+  </select>
+    <select id="getEndTime" resultType="java.lang.String">
+      select endtime from activity where id=#{activityid,jdbcType=INTEGER}
+    </select>
+  <select id="getStartTime" resultType="java.lang.String">
+    select starttime from activity where id=#{activityid,jdbcType=INTEGER}
+  </select>
+  <select id="getqiandao" resultType="java.lang.Double">
+    select qiandao  from activity where id=#{activityid}
+
+  </select>
+  <select id="getByHead" resultType="java.util.Map">
+    select distinct * from activity where head like  "%" #{head,jdbcType=VARCHAR} "%" or content like "%" #{head,jdbcType=VARCHAR} "%" order by starttime
+  </select>
+    <select id="selectMyPostActivity" resultType="java.util.Map">
+      select * from activity where sponsor=#{openid,jdbcType=VARCHAR} order by starttime
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from activity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lian.weixin.web.model.Activity">
+    insert into activity (allnum , imgurl, category,
+      head, place, starttime,
+      endtime, registstart, registend, 
+      sponsor, content, assignUser, 
+      mode, numofmate, leader, 
+      mechanism,qiandao,classify1,classify2,teamswitch,checkswitch)
+    values ( #{allnum,jdbcType=INTEGER},#{imgurl,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR},
+      #{head,jdbcType=VARCHAR}, #{place,jdbcType=VARCHAR}, #{starttime,jdbcType=VARCHAR},
+      #{endtime,jdbcType=VARCHAR}, #{registstart,jdbcType=VARCHAR}, #{registend,jdbcType=VARCHAR}, 
+      #{sponsor,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{assignuser,jdbcType=VARCHAR}, 
+      #{mode,jdbcType=VARCHAR}, #{numofmate,jdbcType=INTEGER}, #{leader,jdbcType=VARCHAR},
+      #{mechanism,jdbcType=VARCHAR}, #{qiandao,jdbcType=DOUBLE}, #{classify1,jdbcType=VARCHAR},#{classify2,jdbcType=VARCHAR},
+      #{teamswitch,jdbcType=INTEGER},#{checkswitch,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lian.weixin.web.model.Activity">
+    insert into activity where id=#{activityid,jdbcType=INTEGER}
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="imgurl != null">
+        imgurl,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="head != null">
+        head,
+      </if>
+      <if test="place != null">
+        place,
+      </if>
+      <if test="starttime != null">
+        starttime,
+      </if>
+      <if test="endtime != null">
+        endtime,
+      </if>
+      <if test="registstart != null">
+        registstart,
+      </if>
+      <if test="registend != null">
+        registend,
+      </if>
+      <if test="sponsor != null">
+        sponsor,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="assignuser != null">
+        assignUser,
+      </if>
+      <if test="mode != null">
+        mode,
+      </if>
+      <if test="numofmate != null">
+        numofmate,
+      </if>
+      <if test="leader != null">
+        leader,
+      </if>
+      <if test="mechanism != null">
+        mechanism,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null">
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="head != null">
+        #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null">
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="registstart != null">
+        #{registstart,jdbcType=VARCHAR},
+      </if>
+      <if test="registend != null">
+        #{registend,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsor != null">
+        #{sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="assignuser != null">
+        #{assignuser,jdbcType=VARCHAR},
+      </if>
+      <if test="mode != null">
+        #{mode,jdbcType=VARCHAR},
+      </if>
+      <if test="numofmate != null">
+        #{numofmate,jdbcType=INTEGER},
+      </if>
+      <if test="leader != null">
+        #{leader,jdbcType=VARCHAR},
+      </if>
+      <if test="mechanism != null">
+        #{mechanism,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lian.weixin.web.model.Activity">
+    update activity
+    <set>
+      <if test="imgurl != null">
+        imgurl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="head != null">
+        head = #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null">
+        place = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null">
+        starttime = #{starttime,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null">
+        endtime = #{endtime,jdbcType=VARCHAR},
+      </if>
+      <if test="registstart != null">
+        registstart = #{registstart,jdbcType=VARCHAR},
+      </if>
+      <if test="registend != null">
+        registend = #{registend,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsor != null">
+        sponsor = #{sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="assignuser != null">
+        assignUser = #{assignuser,jdbcType=VARCHAR},
+      </if>
+      <if test="mode != null">
+        mode = #{mode,jdbcType=VARCHAR},
+      </if>
+      <if test="numofmate != null">
+        numofmate = #{numofmate,jdbcType=INTEGER},
+      </if>
+      <if test="leader != null">
+        leader = #{leader,jdbcType=VARCHAR},
+      </if>
+      <if test="mechanism != null">
+        mechanism = #{mechanism,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lian.weixin.web.model.Activity">
+    update activity
+    set imgurl = #{imgurl,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      head = #{head,jdbcType=VARCHAR},
+      place = #{place,jdbcType=VARCHAR},
+      starttime = #{starttime,jdbcType=VARCHAR},
+      endtime = #{endtime,jdbcType=VARCHAR},
+      registstart = #{registstart,jdbcType=VARCHAR},
+      registend = #{registend,jdbcType=VARCHAR},
+      sponsor = #{sponsor,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      assignUser = #{assignuser,jdbcType=VARCHAR},
+      mode = #{mode,jdbcType=VARCHAR},
+      numofmate = #{numofmate,jdbcType=INTEGER},
+      leader = #{leader,jdbcType=VARCHAR},
+      mechanism = #{mechanism,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

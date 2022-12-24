@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lian.weixin.web.mapper.ActivityStartMapper">
+  <resultMap id="BaseResultMap" type="com.lian.weixin.web.model.ActivityStart">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="isover" jdbcType="INTEGER" property="isover" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="activityid" jdbcType="INTEGER" property="activityid" />
+    <result column="currenttime" jdbcType="VARCHAR" property="currenttime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, isover, openid, activityid, currenttime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from activitystart
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="getStartTime" resultType="java.lang.String">
+      select currenttime from activitystart where openid=#{openid,jdbcType=VARCHAR} and activityid=#{activityid,jdbcType=INTEGER}
+    </select>
+  <select id="getIsOver" resultType="java.lang.Integer">
+    select isover from activitystart where openid=#{openid,jdbcType=VARCHAR} and activityid=#{activityid,jdbcType=INTEGER}
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from activitystart
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lian.weixin.web.model.ActivityStart">
+    insert into activitystart (id, isover, openid, 
+      activityid, currenttime)
+    values (#{id,jdbcType=INTEGER}, #{isover,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, 
+      #{activityid,jdbcType=INTEGER}, #{currenttime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lian.weixin.web.model.ActivityStart">
+    insert into activitystart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="isover != null">
+        isover,
+      </if>
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="activityid != null">
+        activityid,
+      </if>
+      <if test="currenttime != null">
+        currenttime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="isover != null">
+        #{isover,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="activityid != null">
+        #{activityid,jdbcType=INTEGER},
+      </if>
+      <if test="currenttime != null">
+        #{currenttime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lian.weixin.web.model.ActivityStart">
+    update activitystart
+    <set>
+      <if test="isover != null">
+        isover = #{isover,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="activityid != null">
+        activityid = #{activityid,jdbcType=INTEGER},
+      </if>
+      <if test="currenttime != null">
+        currenttime = #{currenttime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lian.weixin.web.model.ActivityStart">
+    update activitystart
+    set isover = #{isover,jdbcType=INTEGER},
+      openid = #{openid,jdbcType=VARCHAR},
+      activityid = #{activityid,jdbcType=INTEGER},
+      currenttime = #{currenttime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="setisOver">
+    update activitystart set  isover=1
+
+  </update>
+</mapper>
